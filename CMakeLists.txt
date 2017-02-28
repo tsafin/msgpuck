@@ -5,8 +5,14 @@ if(POLICY CMP0037)
     cmake_policy(SET CMP0037 OLD) # don't blame custom target names
 endif(POLICY CMP0037)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -fstrict-aliasing -fPIC")
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0 -pg -Wall -Wextra -Wcast-align -Werror")
+if (WIN32)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /Wall")
+    # set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /Od /WX")
+    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /Od")
+else()
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -fstrict-aliasing -fPIC")
+    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0 -pg -Wall -Wextra -Wcast-align -Werror")
+endif()
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug CACHE STRING
